@@ -112,8 +112,10 @@ getNode() {
     printf '%s %s\n\n' '###' "Installing node.js (you can bypass this step by manually installing node.js $MINVER or newer)"
     local march="$MARCH";
     [ "$march" = "x86_64" ] && march="x64";
-    [ "$march" = "armv6l" ] && march="arm-pi";
-    [ "$march" = "armv7l" ] && march="arm-pi";
+    if [ `printf "$DLVER" | $SED_PATH 's/\..*//'` = "v0" ]; then
+        [ "$march" = "armv6l" ] && march="arm-pi";
+        [ "$march" = "armv7l" ] && march="arm-pi";
+    fi
     NODEURL="http://nodejs.org/dist/$DLVER/node-$DLVER-$PLATFORM-$march.tar.gz";
     [ "$NODEHASH" = "" ] && getNodeHash;
     [ "$NODEHASH" = "" ] && printf '%s\n%s\n' \
